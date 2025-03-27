@@ -2,19 +2,25 @@ import { motion } from 'framer-motion';
 import { Message } from '@/types/chat';
 import { cn } from '@/lib/utils';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface ChatMessageProps {
   message: Message;
+}
+
+interface MessagePart {
+  type: 'text' | 'code';
+  content: string;
+  language?: string;
 }
 
 export function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === 'user';
 
   // Function to parse and format code blocks
-  const formatMessage = (content: string) => {
-    const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-    const parts = [];
+  const formatMessage = (content: string): MessagePart[] => {
+    const codeBlockRegex = /```([\w-]*)\n([\s\S]*?)```/g;
+    const parts: MessagePart[] = [];
     let lastIndex = 0;
     let match;
 
@@ -67,20 +73,26 @@ export function ChatMessage({ message }: ChatMessageProps) {
       >
         {messageParts.map((part, index) => (
           part.type === 'code' ? (
-            <div key={index} className="my-2 rounded-md overflow-hidden">
-              <SyntaxHighlighter
-                language={part.language}
-                style={oneDark}
-                customStyle={{
-                  margin: 0,
-                  borderRadius: '0.375rem',
-                }}
-              >
-                {part.content}
-              </SyntaxHighlighter>
+            <div key={index} className="my-4 first:mt-0 last:mb-0">
+              <div className="rounded-md overflow-hidden bg-[#282c34]">
+                <div className="px-4 py-2 bg-[#21252b] text-xs text-gray-200">
+                  {part.language}
+                </div>
+                <SyntaxHighlighter
+                  language={part.language}
+                  style={oneDark}
+                  customStyle={{
+                    margin: 0,
+                    padding: '1rem',
+                    background: 'transparent',
+                  }}
+                >
+                  {part.content}
+                </SyntaxHighlighter>
+              </div>
             </div>
           ) : (
-            <div key={index} className="whitespace-pre-wrap">
+            <div key={index} className="whitespace-pre-wrap my-4 first:mt-0 last:mb-0">
               {part.content}
             </div>
           )
