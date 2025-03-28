@@ -51,7 +51,7 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="flex gap-2 max-w-full">
       <textarea
         ref={textareaRef}
         value={input}
@@ -61,14 +61,18 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
         disabled={disabled}
         rows={1}
         className={cn(
-          "flex w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs",
+          "flex w-full rounded-md border bg-transparent px-2 sm:px-3 py-2 text-sm sm:text-base shadow-xs",
           "placeholder:text-muted-foreground",
           "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "text-white resize-none min-h-[36px] max-h-[200px]"
         )}
       />
-      <Button type="submit" disabled={disabled}>
+      <Button 
+        type="submit" 
+        disabled={disabled}
+        className="shrink-0"
+      >
         <Send className="h-4 w-4" />
       </Button>
     </form>

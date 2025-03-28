@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { Message } from '@/types/chat';
 import { cn } from '@/lib/utils';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import oneDark from 'react-syntax-highlighter/dist/cjs/styles/prism/one-dark';
 
 interface ChatMessageProps {
   message: Message;
@@ -67,7 +67,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
     >
       <div
         className={cn(
-          'max-w-[80%] rounded-lg p-4',
+          'max-w-[85%] sm:max-w-[75%] rounded-lg p-3 sm:p-4',
           isUser ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-800'
         )}
       >
